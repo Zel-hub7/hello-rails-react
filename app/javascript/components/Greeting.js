@@ -1,19 +1,32 @@
-import axios from "axios";
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { fetchGreetings } from '../redux/greetingsSlice';
 
-const getData= async ()=>{
-    const result= await axios.get('/api/v1/greetings');
+const Greeting = () => {
+  const dispatch = useDispatch();
+  const greeting = useSelector((state) => state.greetings.greeting);
+  const status = useSelector((state) => state.greetings.status);
+  const error = useSelector((state) => state.greetings.error);
 
-};
+  useEffect(() => {
+    if (status === 'idle') {
+      dispatch(fetchGreetings());
+    }
+  }, [status, dispatch]);
 
-const Greeting=()=>{
-    useEffect(()=>{
-        getData();
-    },[]);
+  if (status === 'loading') {
+    return <div>Loading...</div>;
+  }
 
-    return(
-        <h1>Greeting</h1>
-    )
+  if (status === 'failed') {
+    return <div>Error: {error}</div>;
+  }
+
+  return (
+    <div>
+      <h1>{greeting}</h1>
+    </div>
+  );
 };
 
 export default Greeting;
