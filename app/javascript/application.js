@@ -2,10 +2,11 @@
 import "@hotwired/turbo-rails"
 import "./controllers"
 import React from "react"
-import ReactDOM from 'react-dom';
+import ReactDOM from 'react-dom';s
+import Home from "./components/Home";
 
 
 const root=ReactDOM.createRoot(document.getElementById('root'));
 root.render(
-   <h1>Hello react</h1>
+   <Home />
 );
